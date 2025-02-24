@@ -7,6 +7,7 @@ import {AuthProvider, useAuth} from "./Auth/AuthContext.jsx";
 import Login from "./Auth/Login.jsx";
 import Register from "./Auth/Register.jsx";
 import {useState} from "react";
+import Dashboard from "./Pages/User/Dashboard.jsx";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
                     <Route path="/" element={<Home/>} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
                     {/*<Route path="/axios" element={<RandomNumGenerator />} />*/}
                     {/*<Route path="/websocket" element={<RandomNumbersWebSocket />} />*/}
                     <Route path="/axios" element={token ? <RandomNumGenerator /> : <Navigate to="/login" />} />
