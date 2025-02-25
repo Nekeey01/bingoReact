@@ -1,6 +1,6 @@
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 
 import {TabContext, TabList, TabPanel} from '@mui/lab';
@@ -10,10 +10,90 @@ import {
     Box, Button,
     Modal,
     Tab,
+
 } from "@mui/material";
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
+import {keyframes} from '@mui/system';
 
+// TODO: крч надо определять, на какой позиции сейчас находится кнопка. Мб как то чекать состояние транслейта по игрику, и в зависимости от этого кальком высчитывать куда передвинуть
+
+// Определяем анимацию изменения градиента
+const gradientAnimationLogin = keyframes`
+    0% {
+        background-position: 100% 50%;
+        //transform: translateY(100%);
+
+    }
+    100% {
+        background-position: 30% 50%;
+        transform: translateY(0%);
+    }
+`;
+
+const gradientAnimationLoginOpenModal = keyframes`
+    0% {
+        background-position: 100% 50%;
+        //transform: translateY(0%);
+
+    }
+    100% {
+        background-position: 30% 50%;
+        //transform: translateY(0%);
+    }
+`;
+
+const gradientAnimationLoginInactive = keyframes`
+    0% {
+        background-position: 30% 50%;
+        transform: translateY(0%);
+
+    }
+    100% {
+        background-position: 100% 50%;
+        transform: translateY(100%);
+
+    }
+`;
+
+const gradientAnimationReg = keyframes`
+    0% {
+        background-position: 100% 50%;
+        transform: translateY(0%);
+
+    }
+    100% {
+        background-position: 30% 50%;
+        transform: translateY(-100%);
+
+    }
+`;
+
+const gradientAnimationRegInactive = keyframes`
+    0% {
+        background-position: 30% 50%;
+        transform: translateY(-100%);
+
+    }
+    100% {
+        background-position: 100% 50%;
+        transform: translateY(0%);
+
+    }
+`;
+
+const gradientAnimationRegInactiveOpenModal = keyframes`
+    0% {
+        background-position: 30% 50%;
+        //transform: translateY(-100%);
+
+    }
+    100% {
+        background-position: 100% 50%;
+        //transform: translateY(0%);
+
+    }
+`;
 const modalStyle = {
     position: "absolute",
     top: "50%",
@@ -31,8 +111,18 @@ const modalStyle = {
     flexDirection: "row-reverse",
 };
 
-const TabItem = styled(Tab)(({theme}) => ({
-// const TabItem = {
+
+// const TabItem = styled(Tab)(({theme}) => ({
+// let isFirstRender = true;
+// const TabItem = styled(Tab,
+//     {shouldForwardProp: (prop) => prop !== 'isFirstRender',
+//     })(({theme}) => ({
+//
+//     props: ({ isFirstRender }) => isFirstRender,
+
+const TabItem = styled(Tab, {
+    shouldForwardProp: (prop) => prop !== "isFirstRender",
+})(({theme, isFirstRender}) => ({
     position: "initial",
     opacity: 1,
     overflow: "initial",
@@ -44,78 +134,117 @@ const TabItem = styled(Tab)(({theme}) => ({
     color: (theme.vars || theme).palette.text.primary,
     backgroundColor: "#9E9292",
     transition: ".5s",
-    flexDirection: "column-reverse",
+    // transition: "5.5s",
+    flexDirection: "column",
+    order: 2,
+    // background: "linear-gradient(90deg, #5fbf47 0%, #39732a 100%)",
     "&:before": {
         // transition: "0.2s",
     },
 
     "&:first-of-type": {
-        // clipPath: "polygon(0% 0%, 75% 0, 100% 100%, 0% 100%)",
         backgroundColor: "#5fbf47",
         color: "#040440",
 
-        background: "linear-gradient(90deg, #5fbf47 0%, #5fbf47 100%)",
+        background: "linear-gradient(90deg, #3d3737 35%, #5fbf47 75%)",
+        backgroundSize: "200% 100%",
 
-        "&:before": {
-            // opacity: 0,
-            // transition: "0.5s",
-        },
     },
 
     "&:not(:first-of-type)": {
-        "&": {
-            "&:before": {
-                // opacity: 0,
-
-                // transition: "0.5s",
-            },
-            backgroundColor: "#df4759",
-            background: "linear-gradient(90deg, #df4759 0%, #df4759 100%)",
-            // color: "#df4759"
-            color: "#040440",
-
-            // clipPath: "polygon(25% 0, 100% 0, 100% 100%, 0% 100%)",
-        },
-
+        background: "linear-gradient(90deg, #3d3737 35%, #ef172f 75%)",
+        backgroundSize: "200% 100%",
+        color: "#040440",
     },
+
 
     [`&.${tabClasses.selected}`]: {
         backgroundColor: "#3d3737",
-        alignItems: "end",
-        // borderRadius: "100px",
-        // clipPath: "polygon(0% 0%, 75% 0, 100% 100%, 0% 100%)",
         "&:first-of-type": {
-            background: "linear-gradient(90deg, #3d3737 0%, #39732a 100%)",
+            // animation: isFirstRender ? `${gradientAnimationLoginOpenModal} .5s linear alternate both` : `${gradientAnimationLogin} .5s linear alternate both`,
+            animation: isFirstRender ? `none` : `${gradientAnimationLogin} .5s linear alternate both`,
+
+            // variants: [
+            //     {
+            //         props: ({isFirstRender}) => isFirstRender,
+            //         // props: {isFirstRender: true},
+            //         style: () => ({
+            //             animation: "none",
+            //         }),
+            //     },
+            //     {
+            //         // props: {isFirstRender: false},
+            //         props: ({isFirstRender})  => isFirstRender,
+            //         style: () => ({
+            //             animation: `${gradientAnimationLogin} .5s linear alternate both`,
+            //         }),
+            //     }
+            // ]
         },
 
         "&:not(:first-of-type)": {
-            background: "linear-gradient(90deg, #3d3737 0%, #df4759 100%)",
+            animation: isFirstRender ? 'none' : `${gradientAnimationReg} .5s linear alternate both`,
 
+            // variants: [
+            //     {
+            //         props: {isFirstRender: true},
+            //         style: () => ({
+            //             animation: "none",
+            //         }),
+            //     },
+            //     {
+            //         props: {isFirstRender: false},
+            //         style: () => ({
+            //             animation: `${gradientAnimationReg} .5s linear alternate both`,
+            //         }),
+            //     }
+            // ]
         },
-
-        // "&:before": {
-        //     transition: "1.5s",
-        // },
-
-        // transform: "scale(1.0, 1.2)",
-
-        "& spanLabel":{
-            // transform: "scale(1, calc(1/1.2))",
-        }
-        // color: "#040440",
     },
 
     [`&:not(.${tabClasses.selected})`]: {
-        // "&:before": {
-        //     transition: "1.5s",
-        // },
         clipPath: "polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 15% 100%, 15% 70%, 0% 50%, 15% 30%, 15% 0%)",
 
-        // clipPath: "polygon(100% 0%, 75% 50%, 100% 100%, 25% 100%, 0% 50%, 25% 0%)",
-        // transition: theme.transitions.create(["clip-path"], {
-        //     easing: theme.transitions.easing.easeOut,
-        //     duration: 12
-        // }),
+        "&:first-of-type": {
+            backgroundSize: "800% 100%",
+            animation: isFirstRender ? 'none' : `${gradientAnimationLoginInactive} .5s linear alternate both`,
+
+            // variants: [
+            //     {
+            //         props: {isFirstRender: true},
+            //         style: () => ({
+            //             animation: "none",
+            //         }),
+            //     },
+            //     {
+            //         props: {isFirstRender: false},
+            //         style: () => ({
+            //             animation: `${gradientAnimationLoginInactive} .5s linear alternate both`,
+            //         }),
+            //     }
+            // ]
+        },
+
+        "&:not(:first-of-type)": {
+            backgroundSize: "800% 100%",
+            // animation: isFirstRender ? `${gradientAnimationRegInactiveOpenModal} .5s linear alternate both` : `${gradientAnimationRegInactive} .5s linear alternate both`,
+            animation: isFirstRender ? `none` : `${gradientAnimationRegInactive} .5s linear alternate both`,
+
+            // variants: [
+            //     {
+            //         props: {isFirstRender: true},
+            //         style: () => ({
+            //             animation: "none",
+            //         }),
+            //     },
+            //     {
+            //         props: {isFirstRender: false},
+            //         style: () => ({
+            //             animation: `${gradientAnimationRegInactive} .5s linear alternate both`,
+            //         }),
+            //     }
+            // ]
+        },
     },
 
 
@@ -125,9 +254,29 @@ const TabItem = styled(Tab)(({theme}) => ({
 // eslint-disable-next-line react/prop-types
 export default function LoginModalCard({open, handleClose}) {
     const [value, setValue] = useState('Login');
+    const [isFirstRender, setIsFirstRender] = useState(true);
+
+    useEffect(() => {
+        if (open && isFirstRender) {
+            setIsFirstRender(false);
+        }
+    }, [open, isFirstRender]);
+
+    // useEffect(() => {
+    //     console.log(`isFirstRender1 - ${isFirstRender}`)
+    //     setIsFirstRender(!isFirstRender);
+    //     console.log(`isFirstRender2 - ${isFirstRender}`)
+    //
+    // }, [open]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+    };
+
+    const handleClick = () => {
+      setIsFirstRender(!isFirstRender);
+        console.log(`isFirstRender3 - ${isFirstRender}`)
+
     };
 
     return (
@@ -172,14 +321,16 @@ export default function LoginModalCard({open, handleClose}) {
                             onChange={handleChange}
                             aria-label="lab API tabs example">
 
-                            <TabItem label={<spanLabel>Логин</spanLabel>} value="Login"/>
-                            <TabItem label="Регистрация" value="Registration"></TabItem>
+                            <TabItem label={"Логин"}  value="Login" isFirstRender={isFirstRender}/>
+                            <TabItem label="Регистрация" value="Registration" isFirstRender={isFirstRender}></TabItem>
+
+
                             {/*<TabItem label="Registration" value="Registration"/>*/}
                         </TabList>
                     </Box>
 
                     <Box>
-                        {/*<Button>LOX</Button>*/}
+                        <Button onClick={handleClick}>LOX</Button>
 
                         <Box sx={{
                             bgcolor: "#3d3737",
