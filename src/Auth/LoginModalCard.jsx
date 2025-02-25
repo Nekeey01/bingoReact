@@ -7,7 +7,7 @@ import {TabContext, TabList, TabPanel} from '@mui/lab';
 import {styled} from "@mui/material/styles";
 import {tabClasses} from "@mui/material/Tab";
 import {
-    Box,
+    Box, Button,
     Modal,
     Tab,
 } from "@mui/material";
@@ -19,14 +19,16 @@ const modalStyle = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: "20%",
+    width: "30%",
     bgcolor: "#3d3737",
     color: "#ffffff",
-    boxShadow: 24,
+    // boxShadow: 24,
     p: 4,
     borderRadius: 2,
     padding: 0,
     background: "none",
+    display: "flex",
+    flexDirection: "row-reverse",
 };
 
 const TabItem = styled(Tab)(({theme}) => ({
@@ -36,101 +38,88 @@ const TabItem = styled(Tab)(({theme}) => ({
     overflow: "initial",
     zIndex: 1,
     textTransform: "initial",
-    // borderRadius: "15px",
-    // borderTopRightRadius: "25px",
-    // borderTopLeftRadius: "25px",
+    clipPath: "polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 100%, 0% 50%, 0% 0%, 0% 0%)",
+    // background: "linear-gradient(90deg, #5fbf47 0%, #5fbf47 100%)",
 
     color: (theme.vars || theme).palette.text.primary,
     backgroundColor: "#9E9292",
-    transition: "0.2s",
-    // [theme.breakpoints.up("sm")]: {
-    //     minWidth: 120,
-    // },
-
-
+    transition: ".5s",
+    flexDirection: "column-reverse",
     "&:before": {
-        transition: "0.2s",
+        // transition: "0.2s",
     },
-
-    // "&::after": {
-    //     content: 'attr(data-text)', // Вставляем текст из data-text
-    //     position: "absolute",
-    //     top: "50%",
-    //     left: "50%",
-    //     transform: "translate(-50%, -50%)",
-    //     whiteSpace: "nowrap",
-    // },
-
 
     "&:first-of-type": {
-        // textTransform: ,
+        // clipPath: "polygon(0% 0%, 75% 0, 100% 100%, 0% 100%)",
+        backgroundColor: "#5fbf47",
+        color: "#040440",
 
-        clipPath: "polygon(0% 0%, 75% 0, 100% 100%, 0% 100%)",
+        background: "linear-gradient(90deg, #5fbf47 0%, #5fbf47 100%)",
 
-        // borderTopRightRadius: "25px",
-        // borderTopLeftRadius: "15px",
-        // // transform: "perspective(5px) rotateX(0.93deg) translateZ(-1px)",
-        // transform: "perspective(5px) rotateX(1.3deg) translateY(7px) translateZ(-0.9px)",
-        // transformOrigin: "0 0",
-        // borderBottomLeftRadius: "15px",
+        "&:before": {
+            // opacity: 0,
+            // transition: "0.5s",
+        },
     },
-
-
-    // "& spanLabel": {
-    //         transform: "none !important",
-    //         color: "#534",
-    //         // all: "revert",
-    // },
 
     "&:not(:first-of-type)": {
         "&": {
-            // borderTopRightRadius: "15px",
-            // borderTopLeftRadius: "25px",
-            // transform: "perspective(none) skewX(-23deg) rotateX(1.05deg) scaleY(120%) translateY(10px) translateZ(0.5px)",
-            // transform: "perspective(none) skewX(-43deg) rotateX(1.05deg) scaleY(120%) translateY(10px) scaleX(120%) translateX(25px)",
-            // transformOrigin: "100% 100%",
-            clipPath: "polygon(25% 0, 100% 0, 100% 100%, 0% 100%)",
-            // clipPath: "inset(0px 0% round 1% 2% 3% 4%)",
-            // borderBottomLeftRadius: "10px",
+            "&:before": {
+                // opacity: 0,
+
+                // transition: "0.5s",
+            },
+            backgroundColor: "#df4759",
+            background: "linear-gradient(90deg, #df4759 0%, #df4759 100%)",
+            // color: "#df4759"
+            color: "#040440",
+
+            // clipPath: "polygon(25% 0, 100% 0, 100% 100%, 0% 100%)",
         },
 
-        // "&:before": {
-        //     content: '""',
-        //     borderTopRightRadius: "15px",
-        //     borderTopLeftRadius: "25px",
-        //     transform: "",
-        //     transformOrigin: "100% 100%",
-        //     borderBottomLeftRadius: "10px",
-        // },
-
     },
-
-
-
-
-    // [`& + .${tabClasses.selected}::before`]: {
-    //     color: "#000"
-    // },
-    //
-    // [`& + .${tabClasses.selected}::before`]: {
-    //     opacity: 0,
-    // },
 
     [`&.${tabClasses.selected}`]: {
         backgroundColor: "#3d3737",
-        // color: (theme.vars || theme).palette.common.white,
-        // borderTopRightRadius: "15px",
-        // borderTopLeftRadius: "45px",
+        alignItems: "end",
+        // borderRadius: "100px",
+        // clipPath: "polygon(0% 0%, 75% 0, 100% 100%, 0% 100%)",
+        "&:first-of-type": {
+            background: "linear-gradient(90deg, #3d3737 0%, #39732a 100%)",
+        },
+
+        "&:not(:first-of-type)": {
+            background: "linear-gradient(90deg, #3d3737 0%, #df4759 100%)",
+
+        },
+
+        // "&:before": {
+        //     transition: "1.5s",
+        // },
+
+        // transform: "scale(1.0, 1.2)",
+
+        "& spanLabel":{
+            // transform: "scale(1, calc(1/1.2))",
+        }
+        // color: "#040440",
     },
-    // [`&.${tabClasses.selected} + .${tabClasses.root}`]: {
-    //     zIndex: 1,
-    // },
-    // [`&.${tabClasses.selected} + .${tabClasses.root}::before`]: {
-    //     opacity: 0,
-    // },
+
+    [`&:not(.${tabClasses.selected})`]: {
+        // "&:before": {
+        //     transition: "1.5s",
+        // },
+        clipPath: "polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 15% 100%, 15% 70%, 0% 50%, 15% 30%, 15% 0%)",
+
+        // clipPath: "polygon(100% 0%, 75% 50%, 100% 100%, 25% 100%, 0% 50%, 25% 0%)",
+        // transition: theme.transitions.create(["clip-path"], {
+        //     easing: theme.transitions.easing.easeOut,
+        //     duration: 12
+        // }),
+    },
+
 
 }));
-// };
 
 
 // eslint-disable-next-line react/prop-types
@@ -146,29 +135,65 @@ export default function LoginModalCard({open, handleClose}) {
             <Box sx={modalStyle}>
                 {/*<Box>*/}
                 <TabContext value={value}>
-                    <Box sx={{borderBottom: 0,}}>
-                        <TabList TabIndicatorProps={{
-                            sx: {
-                                display: 'none',
-                            }
-                        }} sx={{
-                            // width: "100%",
-                            // boxShadow: "inset 0 -1px 0 0 #E6ECF0",
-                        }} variant="fullWidth" textColor="inherit" centered={true} onChange={handleChange}
-                                 aria-label="lab API tabs example">
-                            <TabItem label={"Login"} value="Login"/>
-                            <TabItem label="Registration" value="Registration"></TabItem>
+                    <Box
+                        sx={{
+                            borderBottom: 0,
+                            flexGrow: 1,
+                            display: "flex",
+                            width: "50%",
+                        }}
+                    >
+                        <TabList
+                            TabIndicatorProps={{
+                                sx: {
+                                    display: 'none',
+                                }
+                            }}
+                            sx={{
+                                width: "100%",
+                                // flexDirection: "column",
+
+
+                                [`&.${tabClasses.selected}`]: {
+                                    "&:first-of-type": {
+                                        flexDirection: "column",
+                                    },
+
+                                    "&:not(:first-of-type)": {
+                                        flexDirection: "column-reverse",
+                                    },
+                                },
+                            }}
+                            orientation="vertical"
+                            variant="fullWidth"
+
+                            textColor="inherit"
+                            centered={true}
+                            onChange={handleChange}
+                            aria-label="lab API tabs example">
+
+                            <TabItem label={<spanLabel>Логин</spanLabel>} value="Login"/>
+                            <TabItem label="Регистрация" value="Registration"></TabItem>
                             {/*<TabItem label="Registration" value="Registration"/>*/}
                         </TabList>
                     </Box>
-                    <Box sx={{
-                        bgcolor: "#3d3737",
-                        borderBottomRightRadius: "15px",
-                        borderBottomLeftRadius: "15px",
-                    }}>
-                        <TabPanel value="Login"><Login/> </TabPanel>
-                        <TabPanel value="Registration"><Register/></TabPanel>
+
+                    <Box>
+                        {/*<Button>LOX</Button>*/}
+
+                        <Box sx={{
+                            bgcolor: "#3d3737",
+                            borderBottomRightRadius: "15px",
+                            borderBottomLeftRadius: "15px",
+                            boxShadow: "-10px -10px 5px green",
+
+                        }}>
+
+                            <TabPanel value="Login"><Login/> </TabPanel>
+                            <TabPanel value="Registration"><Register/></TabPanel>
+                        </Box>
                     </Box>
+
                 </TabContext>
             </Box>
             {/*<Box sx={modalStyle}>*/}

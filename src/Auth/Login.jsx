@@ -82,8 +82,8 @@ export default function Login() {
             >
                 <Close />
             </IconButton>
-            <Typography variant="h5" sx={{ mb: 2, textAlign: "center" }}>
-                Войти или зарегистрироваться
+            <Typography variant="h5" sx={{ mb: 2,  color: "green",  textAlign: "center" }}>
+                Войти
             </Typography>
             <Button
                 fullWidth

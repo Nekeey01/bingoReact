@@ -74,8 +74,8 @@ export default function Register({ open, handleClose }) {
                 >
                     <Close />
                 </IconButton>
-                <Typography variant="h5" sx={{ mb: 2, textAlign: "center" }}>
-                    Войти или зарегистрироваться
+                <Typography variant="h5" sx={{ mb: 2, color: "red", textAlign: "center" }}>
+                    Зарегистрироваться
                 </Typography>
                 <Button
                     fullWidth
