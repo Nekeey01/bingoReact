@@ -16,7 +16,8 @@ import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 import {keyframes} from '@mui/system';
 
-// TODO: крч надо определять, на какой позиции сейчас находится кнопка. Мб как то чекать состояние транслейта по игрику, и в зависимости от этого кальком высчитывать куда передвинуть
+// TODO: крч надо определять, на какой позиции сейчас находится кнопка.
+//  Мб как то чекать состояние транслейта по игрику, и в зависимости от этого кальком высчитывать куда передвинуть
 
 // Определяем анимацию изменения градиента
 const gradientAnimationLogin = keyframes`
@@ -27,62 +28,65 @@ const gradientAnimationLogin = keyframes`
     }
     100% {
         background-position: 30% 50%;
-        transform: translateY(0%);
+        //transform: translateY(0%);
     }
 `;
 
-const gradientAnimationLoginOpenModal = keyframes`
-    0% {
-        background-position: 100% 50%;
-        //transform: translateY(0%);
-
-    }
-    100% {
-        background-position: 30% 50%;
-        //transform: translateY(0%);
-    }
+const slideInFromBottom = keyframes`
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
 `;
 
 const gradientAnimationLoginInactive = keyframes`
     0% {
         background-position: 30% 50%;
-        transform: translateY(0%);
+        //transform: translateY(0%);
 
     }
     100% {
         background-position: 100% 50%;
-        transform: translateY(100%);
+        //transform: translateY(100%);
 
     }
 `;
+
+const slideOutToBottom = keyframes`
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+`;
+
 
 const gradientAnimationReg = keyframes`
     0% {
         background-position: 100% 50%;
-        transform: translateY(0%);
+        //transform: translateY(0%);
 
     }
     100% {
         background-position: 30% 50%;
-        transform: translateY(-100%);
+        //transform: translateY(-100%);
 
     }
+`;
+
+const slideOutToTop = keyframes`
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
 `;
 
 const gradientAnimationRegInactive = keyframes`
-    0% {
-        background-position: 30% 50%;
-        transform: translateY(-100%);
-
-    }
-    100% {
-        background-position: 100% 50%;
-        transform: translateY(0%);
-
-    }
-`;
-
-const gradientAnimationRegInactiveOpenModal = keyframes`
     0% {
         background-position: 30% 50%;
         //transform: translateY(-100%);
@@ -94,6 +98,16 @@ const gradientAnimationRegInactiveOpenModal = keyframes`
 
     }
 `;
+
+const slideInFromTop = keyframes`
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+`;
+
 const modalStyle = {
     position: "absolute",
     top: "50%",
@@ -113,16 +127,17 @@ const modalStyle = {
 
 
 // const TabItem = styled(Tab)(({theme}) => ({
-// let isFirstRender = true;
+// let isSelected = true;
 // const TabItem = styled(Tab,
-//     {shouldForwardProp: (prop) => prop !== 'isFirstRender',
+//     {shouldForwardProp: (prop) => prop !== 'isSelected',
 //     })(({theme}) => ({
 //
-//     props: ({ isFirstRender }) => isFirstRender,
+//     props: ({ isSelected }) => isSelected,
 
 const TabItem = styled(Tab, {
-    shouldForwardProp: (prop) => prop !== "isFirstRender",
-})(({theme, isFirstRender}) => ({
+    // shouldForwardProp: (prop) => prop !== "isSelected",
+    shouldForwardProp: (prop) => prop !== "isAbove",
+})(({theme, isAbove}) => ({
     position: "initial",
     opacity: 1,
     overflow: "initial",
@@ -133,10 +148,10 @@ const TabItem = styled(Tab, {
 
     color: (theme.vars || theme).palette.text.primary,
     backgroundColor: "#9E9292",
-    transition: ".5s",
+    transition: "clip-path .5s",
     // transition: "5.5s",
-    flexDirection: "column",
-    order: 2,
+    // flexDirection: "column",
+    // order: 2,
     // background: "linear-gradient(90deg, #5fbf47 0%, #39732a 100%)",
     "&:before": {
         // transition: "0.2s",
@@ -145,6 +160,9 @@ const TabItem = styled(Tab, {
     "&:first-of-type": {
         backgroundColor: "#5fbf47",
         color: "#040440",
+        position: "relative",
+        transform: isAbove ? `translateY(0)` : `translateY(100%)`,
+
 
         background: "linear-gradient(90deg, #3d3737 35%, #5fbf47 75%)",
         backgroundSize: "200% 100%",
@@ -155,45 +173,35 @@ const TabItem = styled(Tab, {
         background: "linear-gradient(90deg, #3d3737 35%, #ef172f 75%)",
         backgroundSize: "200% 100%",
         color: "#040440",
+        position: "relative",
+        // top: isAbove ? `-50%` : `0`,
+        transform: isAbove ? `translateY(-100%)` : `translateY(0)`,
+
     },
 
 
     [`&.${tabClasses.selected}`]: {
         backgroundColor: "#3d3737",
         "&:first-of-type": {
-            // animation: isFirstRender ? `${gradientAnimationLoginOpenModal} .5s linear alternate both` : `${gradientAnimationLogin} .5s linear alternate both`,
-            animation: isFirstRender ? `none` : `${gradientAnimationLogin} .5s linear alternate both`,
+            // animation: isSelected ? `${gradientAnimationLoginOpenModal} .5s linear alternate both` : `${gradientAnimationLogin} .5s linear alternate both`,
+            // animation: isSelected ? `none` : `${gradientAnimationLogin} .5s linear alternate both`,
+            animation: isAbove ? `${gradientAnimationLogin} .5s linear alternate both` : `${gradientAnimationLogin} .5s linear alternate both, ${slideInFromBottom} .5s linear alternate both`,
 
-            // variants: [
-            //     {
-            //         props: ({isFirstRender}) => isFirstRender,
-            //         // props: {isFirstRender: true},
-            //         style: () => ({
-            //             animation: "none",
-            //         }),
-            //     },
-            //     {
-            //         // props: {isFirstRender: false},
-            //         props: ({isFirstRender})  => isFirstRender,
-            //         style: () => ({
-            //             animation: `${gradientAnimationLogin} .5s linear alternate both`,
-            //         }),
-            //     }
-            // ]
         },
 
         "&:not(:first-of-type)": {
-            animation: isFirstRender ? 'none' : `${gradientAnimationReg} .5s linear alternate both`,
+            // animation: isSelected ? 'none' : `${gradientAnimationReg} .5s linear alternate both`,
+            animation: isAbove ? `${gradientAnimationReg} .5s linear alternate both` : `${gradientAnimationReg} .5s linear alternate both, ${slideOutToTop} .5s linear alternate both`,
 
             // variants: [
             //     {
-            //         props: {isFirstRender: true},
+            //         props: {isSelected: true},
             //         style: () => ({
             //             animation: "none",
             //         }),
             //     },
             //     {
-            //         props: {isFirstRender: false},
+            //         props: {isSelected: false},
             //         style: () => ({
             //             animation: `${gradientAnimationReg} .5s linear alternate both`,
             //         }),
@@ -207,17 +215,18 @@ const TabItem = styled(Tab, {
 
         "&:first-of-type": {
             backgroundSize: "800% 100%",
-            animation: isFirstRender ? 'none' : `${gradientAnimationLoginInactive} .5s linear alternate both`,
+            // animation: isSelected ? 'none' : `${gradientAnimationLoginInactive} .5s linear alternate both`,
+            animation: isAbove ? `${gradientAnimationLoginInactive} .5s linear alternate both, ${slideOutToBottom} .5s linear alternate both` : `${gradientAnimationLoginInactive} .5s linear alternate both`,
 
             // variants: [
             //     {
-            //         props: {isFirstRender: true},
+            //         props: {isSelected: true},
             //         style: () => ({
             //             animation: "none",
             //         }),
             //     },
             //     {
-            //         props: {isFirstRender: false},
+            //         props: {isSelected: false},
             //         style: () => ({
             //             animation: `${gradientAnimationLoginInactive} .5s linear alternate both`,
             //         }),
@@ -227,18 +236,21 @@ const TabItem = styled(Tab, {
 
         "&:not(:first-of-type)": {
             backgroundSize: "800% 100%",
-            // animation: isFirstRender ? `${gradientAnimationRegInactiveOpenModal} .5s linear alternate both` : `${gradientAnimationRegInactive} .5s linear alternate both`,
-            animation: isFirstRender ? `none` : `${gradientAnimationRegInactive} .5s linear alternate both`,
+            // transform: "translateY(0%)",
+
+            // animation: isSelected ? `${gradientAnimationRegInactiveOpenModal} .5s linear alternate both` : `${gradientAnimationRegInactive} .5s linear alternate both`,
+            // animation: isSelected ? `none` : `${gradientAnimationRegInactive} .5s linear alternate both`,
+            animation: isAbove ? `${gradientAnimationRegInactive} .5s linear alternate both, ${slideInFromTop} .5s linear alternate both` : `${gradientAnimationRegInactive} .5s linear alternate both`,
 
             // variants: [
             //     {
-            //         props: {isFirstRender: true},
+            //         props: {isSelected: true},
             //         style: () => ({
             //             animation: "none",
             //         }),
             //     },
             //     {
-            //         props: {isFirstRender: false},
+            //         props: {isSelected: false},
             //         style: () => ({
             //             animation: `${gradientAnimationRegInactive} .5s linear alternate both`,
             //         }),
@@ -250,32 +262,86 @@ const TabItem = styled(Tab, {
 
 }));
 
+//TODO: Кароче все вроде работает, но надо чет сделать с рендером.
+// Как то менять\понимать кто находится выше. Трабл в том, что он не успевает отследить, когда значение меняется.
+// т.е оно меняется, но функции не видят этого изменения. Крч внутри функций все изменения недоступны, мб они срабатывают до изменения ДОМа
 
 // eslint-disable-next-line react/prop-types
 export default function LoginModalCard({open, handleClose}) {
     const [value, setValue] = useState('Login');
     const [isFirstRender, setIsFirstRender] = useState(true);
 
+    // useEffect(() => {
+    //     if (open && isFirstRender) {
+    //         console.log(`isFirstRender1 - ${isFirstRender}`)
+    //         setIsFirstRender(!isFirstRender);
+    //     }
+    //     console.log(`isFirstRender2 - ${isFirstRender}`)
+    //
+    // }, [open, isFirstRender]);
+    const loginTabRef = useRef(null);
+    const registerTabRef = useRef(null);
+    const [isLoginAbove, setIsLoginAbove] = useState(true);
+
     useEffect(() => {
-        if (open && isFirstRender) {
-            setIsFirstRender(false);
+        if (open === false && isLoginAbove === false && value === "Login"){
+            setIsLoginAbove(!isLoginAbove);
         }
-    }, [open, isFirstRender]);
+        else if (open === false && isLoginAbove === true && value === "Registration"){
+            setIsLoginAbove(!isLoginAbove);
+        }
+        // else if (open === false && isLoginAbove === true){
+        //     if (loginTabRef.current && registerTabRef.current) {
+        //         console.log("WE TUT NAHUY")
+        //         const loginRect = loginTabRef.current.getBoundingClientRect();
+        //         const registerRect = registerTabRef.current.getBoundingClientRect();
+        //
+        //         setIsLoginAbove(loginRect.bottom === registerRect.top);
+        //     }
+        // }
+        // setIsLoginAbove(!isLoginAbove);
+        console.log(`RENDER SUKA`)
+        console.log(`OPEN - ${open}`)
+        console.log(`isLoginAbove123 - ${isLoginAbove}`)
+    }, [open]);
 
     // useEffect(() => {
-    //     console.log(`isFirstRender1 - ${isFirstRender}`)
-    //     setIsFirstRender(!isFirstRender);
-    //     console.log(`isFirstRender2 - ${isFirstRender}`)
+    //     console.log(`isFirstRender1 - ${isSelected}`)
+    //     setIsFirstRender(!isSelected);
+    //     console.log(`isFirstRender2 - ${isSelected}`)
     //
     // }, [open]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        console.log(`setValue - ${value}`)
+
+
+        if (loginTabRef.current && registerTabRef.current) {
+            console.log(`мы зашли сюда isLoginAbove - ${isLoginAbove}`)
+
+            const loginRect = loginTabRef.current.getBoundingClientRect();
+            const registerRect = registerTabRef.current.getBoundingClientRect();
+
+            console.log(`Высота loginRect - ${loginRect.bottom}`)
+            console.log(`Высота registerRect - ${registerRect.top}`)
+
+            setIsLoginAbove(loginRect.bottom === registerRect.top);
+        }
+        console.log(`isLoginAbove1 - ${isLoginAbove}`)
+        console.log(`setValue2 - ${value}`)
+
     };
 
     const handleClick = () => {
-      setIsFirstRender(!isFirstRender);
-        console.log(`isFirstRender3 - ${isFirstRender}`)
+        // setIsFirstRender(!isFirstRender);
+        // console.log(`isLoginAbove2 - ${isLoginAbove}`)
+        // const loginRect = loginTabRef.current.getBoundingClientRect();
+        // const registerRect = registerTabRef.current.getBoundingClientRect();
+        //
+        // console.log(`Высота1 loginRect - ${loginRect.top}`)
+        // console.log(`Высота1 registerRect - ${registerRect.top}`)
+
 
     };
 
@@ -303,26 +369,41 @@ export default function LoginModalCard({open, handleClose}) {
                                 // flexDirection: "column",
 
 
-                                [`&.${tabClasses.selected}`]: {
-                                    "&:first-of-type": {
-                                        flexDirection: "column",
-                                    },
-
-                                    "&:not(:first-of-type)": {
-                                        flexDirection: "column-reverse",
-                                    },
-                                },
+                                // [`&.${tabClasses.selected}`]: {
+                                //     "&:first-of-type": {
+                                //         flexDirection: "column",
+                                //     },
+                                //
+                                //     "&:not(:first-of-type)": {
+                                //         flexDirection: "column-reverse",
+                                //     },
+                                // },
                             }}
                             orientation="vertical"
                             variant="fullWidth"
 
+                                // value={"Registration"}
                             textColor="inherit"
                             centered={true}
                             onChange={handleChange}
                             aria-label="lab API tabs example">
 
-                            <TabItem label={"Логин"}  value="Login" isFirstRender={isFirstRender}/>
-                            <TabItem label="Регистрация" value="Registration" isFirstRender={isFirstRender}></TabItem>
+                            {/*<Tab label={"Логин"}  value="Login" />*/}
+                            {/*<Tab label="Регистрация" value="Registration" ></Tab>*/}
+                            <TabItem
+                                label={"Логин"}
+                                ref={loginTabRef}
+                                isAbove={isLoginAbove}
+                                value="Login"
+                                // isSelected={isFirstRender}
+                            />
+                            <TabItem
+                                label="Регистрация"
+                                value="Registration"
+                                // isSelected={isFirstRender}
+                                ref={registerTabRef}
+                                isAbove={!isLoginAbove}
+                            ></TabItem>
 
 
                             {/*<TabItem label="Registration" value="Registration"/>*/}
@@ -330,7 +411,7 @@ export default function LoginModalCard({open, handleClose}) {
                     </Box>
 
                     <Box>
-                        <Button onClick={handleClick}>LOX</Button>
+                        {/*<Button onClick={handleClick}>LOX</Button>*/}
 
                         <Box sx={{
                             bgcolor: "#3d3737",
