@@ -68,12 +68,7 @@ export default function Register({ open, handleClose }) {
 
     return (
             <Box>
-                <IconButton
-                    onClick={handleClose}
-                    sx={{ position: "absolute", top: 8, right: 8, color: "#ffffff" }}
-                >
-                    <Close />
-                </IconButton>
+
                 <Typography variant="h5" sx={{ mb: 2, color: "red", textAlign: "center" }}>
                     Зарегистрироваться
                 </Typography>
@@ -150,6 +145,7 @@ export default function Register({ open, handleClose }) {
                         error={!!errors.password}
                         helperText={errors.password?.message}
                     />
+
                     <Button
                         type="submit"
                         fullWidth
