@@ -17,6 +17,19 @@ import Register from "./Register.jsx";
 import {keyframes} from '@mui/system';
 import {Label} from "@mui/icons-material";
 
+// transform: scaleX(0.2);
+// width: 70%;
+// height: 35px;
+// margin-top: 15px;
+// border-radius: 0 0 6px 6px;
+// min-height: unset;
+// align-self: flex-end;
+// color: white;
+// font-weight: 500;
+// font-size: 12px;
+// margin-right: 10px;
+// border-radius: 6px;
+
 // TODO: крч надо определять, на какой позиции сейчас находится кнопка.
 //  Мб как то чекать состояние транслейта по игрику, и в зависимости от этого кальком высчитывать куда передвинуть
 
@@ -24,18 +37,38 @@ import {Label} from "@mui/icons-material";
 const gradientAnimationActive = keyframes`
     0% {
         background-position: 100% 50%;
+        height: 35px;
+        //align-self: flex-end;
+        margin-right: 10px;
+        width: 70%;
+        
     }
     100% {
         background-position: 30% 50%;
+        height: inherit;
+        margin-right: 0;
+        width: 100%;
+        //align-self: inherit;
     }
 `;
 
 const gradientAnimationInactive = keyframes`
     0% {
         background-position: 30% 50%;
+        height: inherit;
+        margin-right: 0;
+        width: 100%;
+        //align-self: inherit;
     }
     100% {
         background-position: 100% 50%;
+        
+
+        height: 35px;
+        //align-self: flex-end;
+        margin-right: 10px;
+        width: 70%;
+        
     }
 `;
 const slideInFromBottom = keyframes`
@@ -59,12 +92,14 @@ const slideOutToBottom = keyframes`
 
 
 const slideOutToTop = keyframes`
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-100%);
-  }
+    0% {
+        transform: translateY(0);
+        
+    }
+    100% {
+        transform: translateY(-100%);
+        
+    }
 `;
 
 
@@ -128,7 +163,14 @@ const TabItem = styled(Tab, {
         background: "linear-gradient(90deg, #3d3737 35%, #5fbf47 75%)",
         backgroundSize: "200% 100%",
         zIndex: isAbove ? '1' : "2",
-        boxShadow: isAbove ? "-10px -10px 5px green" : "-10px -10px 5px red"
+        boxShadow: isAbove ? "-10px -10px 5px green" : "-10px -10px 5px red",
+        borderTopRightRadius: "15px",
+        borderBottomRightRadius: "15px",
+
+        height: isAbove ? "100%" : "35px",
+        marginRight: isAbove ? "0" : "10px",
+        width: isAbove ?  "100%" : "70%",
+        // alignSelf: isAbove ? "inherit" : "flex-end",
     },
 
     "&:not(:first-of-type)": {
@@ -136,8 +178,15 @@ const TabItem = styled(Tab, {
         backgroundSize: "200% 100%",
         color: "#040440",
         position: "relative",
-        transform: isAbove ? `translateY(-100%)` : `translateY(0)`,
+        transform: isAbove ? `translateY(-100%) scaleX(2.5) ` : `translateY(0) `,
         zIndex: isAbove ? '1' : "2",
+        borderTopRightRadius: "15px",
+        borderBottomRightRadius: "15px",
+
+        height: isAbove ? "100%" : "35px",
+        marginLeft: isAbove ? "10px" : "", // TODO:
+        width: isAbove ?  "100%" : "70%",
+        // alignSelf: isAbove ? "inherit" : "flex-end",
 
     },
 
@@ -156,7 +205,7 @@ const TabItem = styled(Tab, {
     },
 
     [`&:not(.${tabClasses.selected})`]: {
-        clipPath: "polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 15% 100%, 15% 70%, 0% 50%, 15% 30%, 15% 0%)",
+        // clipPath: "polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 15% 100%, 15% 70%, 0% 50%, 15% 30%, 15% 0%)",
 
         "&:first-of-type": {
             backgroundSize: "800% 100%",
