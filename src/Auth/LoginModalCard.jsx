@@ -37,46 +37,91 @@ import {Label} from "@mui/icons-material";
 const gradientAnimationActive = keyframes`
     0% {
         background-position: 100% 50%;
-        height: 35px;
-        //align-self: flex-end;
-        margin-right: 10px;
-        width: 70%;
-        
+        //height: 35px;
+        ////align-self: flex-end;
+        ////margin-right: 10px;
+        //width: 70%;
+        //margin-left: 22%;
+        //border-radius: 0 0 6px 6px;
     }
     100% {
         background-position: 30% 50%;
-        height: inherit;
-        margin-right: 0;
-        width: 100%;
-        //align-self: inherit;
+        //height: inherit;
+        ////margin-right: 0;
+        //width: 100%;
+        //margin-left: 0;
+        //border-radius: 0 6px 6px 0;
     }
 `;
 
 const gradientAnimationInactive = keyframes`
     0% {
         background-position: 30% 50%;
-        height: inherit;
-        margin-right: 0;
-        width: 100%;
-        //align-self: inherit;
+        //height: inherit;
+        ////margin-right: 0;
+        //width: 100%;
+        //margin-left: 0;
+        //border-radius: 0 6px 6px 0;
     }
     100% {
         background-position: 100% 50%;
-        
-
-        height: 35px;
-        //align-self: flex-end;
-        margin-right: 10px;
-        width: 70%;
-        
+        //height: 35px;
+        ////align-self: flex-end;
+        //margin-left: 22%;
+        //width: 70%;
+        //border-radius: 0 0 6px 6px;
     }
 `;
+
+const sizeTabActive = keyframes`
+    0% {
+        width: 70%;
+        margin-left: 22%;
+        border-radius: 0 0 6px 6px;
+        height: 35px;
+        min-height: 35px;
+    }
+    100% {
+        //height: inherit;
+        width: 100%;
+        margin-left: 0;
+        border-radius: 0 6px 6px 0;
+        height: 48px;
+        min-height: 48px;
+    }
+`;
+
+const sizeTabInactive = keyframes`
+    0% {
+        //height: inherit;
+        //margin-right: 0;
+        width: 100%;
+        margin-left: 0;
+        border-radius: 0 6px 6px 0;
+        height: 48px;
+        min-height: 48px;
+        
+    }
+    100% {
+        //align-self: flex-end;
+        width: 70%;
+        margin-left: 22%;
+        border-radius: 0 0 6px 6px;
+        height: 35px;
+        min-height: 35px;
+    }
+`;
+
+// TODO: Кароч он неправильно считает куда надо пойти. Вохможно, надо переписать условия для анимации.
+
 const slideInFromBottom = keyframes`
   0% {
     transform: translateY(100%);
+      //top: 48px;
   }
   100% {
     transform: translateY(0);
+      //top: 0px;
   }
 `;
 
@@ -84,31 +129,40 @@ const slideInFromBottom = keyframes`
 const slideOutToBottom = keyframes`
   0% {
     transform: translateY(0);
+    //  top: 0px;
   }
   100% {
     transform: translateY(100%);
+    //  top: 48px;
   }
 `;
 
 
 const slideOutToTop = keyframes`
     0% {
-        transform: translateY(0);
-        
+        //transform: translateY(0);
+    transform: translateY(100%);
+        //top: 0px;
     }
     100% {
-        transform: translateY(-100%);
-        
+        //transform: translateY(calc(-48px + 29%));
+        //transform: translateY(-100%);
+    transform: translateY(0);
+        //top: -40px;
     }
 `;
 
 
 const slideInFromTop = keyframes`
   0% {
-    transform: translateY(-100%);
+    //transform: translateY(-100%);
+    transform: translateY(0);
+    //  top: -48px;
   }
   100% {
-    transform: translateY(0);
+    //transform: translateY(0);
+    transform: translateY(100%);
+    //  top: 0px;
   }
 `;
 
@@ -156,37 +210,43 @@ const TabItem = styled(Tab, {
     transition: "clip-path .5s",
 
     "&:first-of-type": {
-        backgroundColor: "#5fbf47",
+        // backgroundColor: "#5fbf47",
         color: "#040440",
-        position: "relative",
-        transform: isAbove ? `translateY(0)` : `translateY(100%)`,
+        position: "absolute",
+        top: isAbove ? "0" : "48px",
+        // transform: isAbove ? `translateY(0%)` : `translateY(100%)`,
         background: "linear-gradient(90deg, #3d3737 35%, #5fbf47 75%)",
         backgroundSize: "200% 100%",
         zIndex: isAbove ? '1' : "2",
-        boxShadow: isAbove ? "-10px -10px 5px green" : "-10px -10px 5px red",
-        borderTopRightRadius: "15px",
-        borderBottomRightRadius: "15px",
+        // boxShadow: isAbove ? "-10px -10px 5px green" : "-10px -10px 5px red",
 
-        height: isAbove ? "100%" : "35px",
-        marginRight: isAbove ? "0" : "10px",
+        borderRadius: isAbove ? "0 6px 6px 0 " : "0 0 6px 6px",
+        height: isAbove ? "48px" : "35px",
+        marginLeft: isAbove ? "0%" : "22%",
         width: isAbove ?  "100%" : "70%",
-        // alignSelf: isAbove ? "inherit" : "flex-end",
+        minHeight: isAbove ? "48px" : "35px",
+
     },
 
     "&:not(:first-of-type)": {
+        color: "#040440",
+        position: "absolute",
+        top: isAbove ? "0" : "48px",
+        // transform: isAbove ? `translateY(0%) ` : `translateY(0%) `,
         background: "linear-gradient(90deg, #3d3737 35%, #ef172f 75%)",
         backgroundSize: "200% 100%",
-        color: "#040440",
-        position: "relative",
-        transform: isAbove ? `translateY(-100%) scaleX(2.5) ` : `translateY(0) `,
         zIndex: isAbove ? '1' : "2",
-        borderTopRightRadius: "15px",
-        borderBottomRightRadius: "15px",
 
-        height: isAbove ? "100%" : "35px",
-        marginLeft: isAbove ? "10px" : "", // TODO:
+        borderRadius: isAbove ? "0 6px 6px 0 " : "0 0 6px 6px",
+        height: isAbove ? "48px" : "35px",
+        marginLeft: isAbove ? "0%" : "22%",
         width: isAbove ?  "100%" : "70%",
-        // alignSelf: isAbove ? "inherit" : "flex-end",
+        minHeight: isAbove ? "48px" : "35px",
+
+        // borderRadius: isAbove ? "0 6px 6px 0" : "0 0 6px 6px",
+        // height: isAbove ? "35px" : "100%" ,
+        // marginLeft: isAbove ? "22%" : "0%",
+        // width: isAbove ?  "70%" : "100%",
 
     },
 
@@ -194,12 +254,12 @@ const TabItem = styled(Tab, {
     [`&.${tabClasses.selected}`]: {
         backgroundColor: "#3d3737",
         "&:first-of-type": {
-            animation: isAbove ? `${gradientAnimationActive} .5s linear alternate both` : `${gradientAnimationActive} .5s linear alternate both, ${slideInFromBottom} .5s linear alternate both`,
+            animation: isAbove ? `${gradientAnimationActive} .5s linear alternate both` : `${gradientAnimationActive} .5s linear alternate both, ${sizeTabActive} .5s linear alternate both, ${slideInFromBottom} .5s linear alternate both`,
             // boxShadow: isAbove ? "-10px -10px 5px green" : "-10px -10px 5px red",
         },
 
         "&:not(:first-of-type)": {
-            animation: isAbove ? `${gradientAnimationActive} .5s linear alternate both` : `${gradientAnimationActive} .5s linear alternate both, ${slideOutToTop} .5s linear alternate both`,
+            animation: isAbove ? `${gradientAnimationActive} .5s linear alternate both` : `${gradientAnimationActive} .5s linear alternate both, ${sizeTabActive} .5s linear alternate both, ${slideOutToTop} .5s linear alternate both`,
             // boxShadow: isAbove ? "-10px -10px 5px red" : "-10px -10px 5px green",
         },
     },
@@ -209,13 +269,13 @@ const TabItem = styled(Tab, {
 
         "&:first-of-type": {
             backgroundSize: "800% 100%",
-            animation: isAbove ? `${gradientAnimationInactive} .5s linear alternate both, ${slideOutToBottom} .5s linear alternate both` : `${gradientAnimationInactive} .5s linear alternate both`,
+            animation: isAbove ? `${gradientAnimationInactive} .5s linear alternate both, ${sizeTabInactive} .5s linear alternate both, ${slideOutToBottom} .5s linear alternate both` : `${gradientAnimationInactive} .5s linear alternate both`,
             // boxShadow: isAbove ? "-10px -10px 5px red" : "-10px -10px 5px green",
         },
 
         "&:not(:first-of-type)": {
             backgroundSize: "800% 100%",
-            animation: isAbove ? `${gradientAnimationInactive} .5s linear alternate both, ${slideInFromTop} .5s linear alternate both` : `${gradientAnimationInactive} .5s linear alternate both`,
+            animation: isAbove ? `${gradientAnimationInactive} .5s linear alternate both, ${sizeTabInactive} .5s linear alternate both, ${slideInFromTop} .5s linear alternate both` : `${gradientAnimationInactive} .5s linear alternate both`,
             // boxShadow: isAbove ? "-10px -10px 5px red" : "-10px -10px 5px green",
 
         },
@@ -255,11 +315,12 @@ export default function LoginModalCard({open, handleClose}) {
 
             const loginRect = loginTabRef.current.getBoundingClientRect();
             const registerRect = registerTabRef.current.getBoundingClientRect();
-
-            console.log(`Высота loginRect - ${loginRect.bottom}`)
-            console.log(`Высота registerRect - ${registerRect.top}`)
+            //
+            // console.log(`Высота loginRect - ${loginRect.bottom}`)
+            // console.log(`Высота registerRect - ${registerRect.top}`)
 
             setIsLoginAbove(loginRect.bottom === registerRect.top);
+                // setIsLoginAbove(loginRect.y < registerRect.y);
         }
         console.log(`isLoginAbove1 - ${isLoginAbove}`)
         console.log(`setValue2 - ${value}`)
@@ -305,7 +366,7 @@ export default function LoginModalCard({open, handleClose}) {
                                 // sx={{
                                 //     boxShadow: value === "Login" ? "-10px -10px 5px green" : "-10px -10px 5px red"
                                 // }}
-                                label="Регистрация"
+                                label={"Регистрация"}
                                 value="Registration"
                                 ref={registerTabRef}
                                 isAbove={!isLoginAbove}
