@@ -1,5 +1,3 @@
-import axios from "axios";
-import {useNavigate} from "react-router-dom";
 import React, {useEffect, useRef, useState} from "react";
 
 
@@ -7,7 +5,7 @@ import {TabContext, TabList, TabPanel} from '@mui/lab';
 import {styled} from "@mui/material/styles";
 import {tabClasses} from "@mui/material/Tab";
 import {
-    Box, Button,
+    Box,
     Modal,
     Tab,
 
@@ -15,7 +13,6 @@ import {
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 import {keyframes} from '@mui/system';
-import {Label} from "@mui/icons-material";
 
 // transform: scaleX(0.2);
 // width: 70%;
@@ -36,40 +33,24 @@ import {Label} from "@mui/icons-material";
 // Определяем анимацию изменения градиента
 const gradientAnimationActive = keyframes`
     0% {
+        //color: #040440;
         background-position: 100% 50%;
         //height: 35px;
-        ////align-self: flex-end;
-        ////margin-right: 10px;
-        //width: 70%;
-        //margin-left: 22%;
-        //border-radius: 0 0 6px 6px;
     }
     100% {
+        //color: #fff;
         background-position: 30% 50%;
-        //height: inherit;
-        ////margin-right: 0;
-        //width: 100%;
-        //margin-left: 0;
-        //border-radius: 0 6px 6px 0;
     }
 `;
 
 const gradientAnimationInactive = keyframes`
     0% {
+        //color: #fff;
         background-position: 30% 50%;
-        //height: inherit;
-        ////margin-right: 0;
-        //width: 100%;
-        //margin-left: 0;
-        //border-radius: 0 6px 6px 0;
     }
     100% {
+        //color: #040440;
         background-position: 100% 50%;
-        //height: 35px;
-        ////align-self: flex-end;
-        //margin-left: 22%;
-        //width: 70%;
-        //border-radius: 0 0 6px 6px;
     }
 `;
 
@@ -78,11 +59,10 @@ const sizeTabActive = keyframes`
         width: 70%;
         margin-left: 22%;
         border-radius: 0 0 6px 6px;
-        height: 35px;
-        min-height: 35px;
+        height: 30px;
+        min-height: 30px;
     }
     100% {
-        //height: inherit;
         width: 100%;
         margin-left: 0;
         border-radius: 0 6px 6px 0;
@@ -93,8 +73,6 @@ const sizeTabActive = keyframes`
 
 const sizeTabInactive = keyframes`
     0% {
-        //height: inherit;
-        //margin-right: 0;
         width: 100%;
         margin-left: 0;
         border-radius: 0 6px 6px 0;
@@ -103,12 +81,11 @@ const sizeTabInactive = keyframes`
         
     }
     100% {
-        //align-self: flex-end;
         width: 70%;
         margin-left: 22%;
         border-radius: 0 0 6px 6px;
-        height: 35px;
-        min-height: 35px;
+        height: 30px;
+        min-height: 30px;
     }
 `;
 
@@ -116,53 +93,40 @@ const sizeTabInactive = keyframes`
 
 const slideInFromBottom = keyframes`
   0% {
-    transform: translateY(100%);
-      //top: 48px;
+      top: 48px;
   }
   100% {
-    transform: translateY(0);
-      //top: 0px;
+      top: 0;
   }
 `;
 
 
 const slideOutToBottom = keyframes`
   0% {
-    transform: translateY(0);
-    //  top: 0px;
+      top: 0;
   }
   100% {
-    transform: translateY(100%);
-    //  top: 48px;
+      top: 48px;
   }
 `;
 
 
 const slideOutToTop = keyframes`
     0% {
-        //transform: translateY(0);
-    transform: translateY(100%);
-        //top: 0px;
+        top: 48px;
     }
     100% {
-        //transform: translateY(calc(-48px + 29%));
-        //transform: translateY(-100%);
-    transform: translateY(0);
-        //top: -40px;
+        top: 0;
     }
 `;
 
 
 const slideInFromTop = keyframes`
   0% {
-    //transform: translateY(-100%);
-    transform: translateY(0);
-    //  top: -48px;
+      top: 0;
   }
   100% {
-    //transform: translateY(0);
-    transform: translateY(100%);
-    //  top: 0px;
+      top: 48px;
   }
 `;
 
@@ -172,8 +136,8 @@ const modalStyle = {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "30%",
-    bgcolor: "#3d3737",
-    color: "#ffffff",
+    bgcolor: "#212121",
+    // color: "#ffffff",
     // boxShadow: 24,
     p: 4,
     borderRadius: 2,
@@ -181,18 +145,7 @@ const modalStyle = {
     background: "none",
     display: "flex",
     flexDirection: "row-reverse",
-    //
-    // #signin:checked ~ #wrapper { height: 178px; }
-    // #signin:checked ~ #wrapper #arrow { left: 32px; }
-    // #signin:checked ~ button span { transform: translate3d(0,-72px,0); }
-    //
-    // #signup:checked ~ #wrapper { height: 262px; }
-    // #signup:checked ~ #wrapper #arrow { left: 137px; }
-    // #signup:checked ~ button span { transform: translate3d(0,-144px,0); }
-    //
-    // #reset:checked ~ #wrapper { height: 94px; }
-    // #reset:checked ~ #wrapper #arrow { left: 404px; }
-    // #reset:checked ~ button span { transform: translate3d(0,0,0); }
+
 };
 
 const TabItem = styled(Tab, {
@@ -211,48 +164,42 @@ const TabItem = styled(Tab, {
 
     "&:first-of-type": {
         // backgroundColor: "#5fbf47",
-        color: "#040440",
+        color: isAbove ? "#fff" : "#040440",
         position: "absolute",
         top: isAbove ? "0" : "48px",
         // transform: isAbove ? `translateY(0%)` : `translateY(100%)`,
-        background: "linear-gradient(90deg, #3d3737 35%, #5fbf47 75%)",
+        background: "linear-gradient(90deg, #212121 35%, #5fbf47 75%)",
         backgroundSize: "200% 100%",
         zIndex: isAbove ? '1' : "2",
         // boxShadow: isAbove ? "-10px -10px 5px green" : "-10px -10px 5px red",
 
         borderRadius: isAbove ? "0 6px 6px 0 " : "0 0 6px 6px",
-        height: isAbove ? "48px" : "35px",
+        height: isAbove ? "48px" : "30px",
         marginLeft: isAbove ? "0%" : "22%",
         width: isAbove ?  "100%" : "70%",
-        minHeight: isAbove ? "48px" : "35px",
+        minHeight: isAbove ? "48px" : "30px",
 
     },
 
     "&:not(:first-of-type)": {
-        color: "#040440",
+        color: isAbove ? "#fff" : "#040440",
         position: "absolute",
         top: isAbove ? "0" : "48px",
         // transform: isAbove ? `translateY(0%) ` : `translateY(0%) `,
-        background: "linear-gradient(90deg, #3d3737 35%, #ef172f 75%)",
+        background: "linear-gradient(90deg, #212121 35%, #ef172f 75%)",
         backgroundSize: "200% 100%",
         zIndex: isAbove ? '1' : "2",
 
         borderRadius: isAbove ? "0 6px 6px 0 " : "0 0 6px 6px",
-        height: isAbove ? "48px" : "35px",
+        height: isAbove ? "48px" : "30px",
         marginLeft: isAbove ? "0%" : "22%",
         width: isAbove ?  "100%" : "70%",
-        minHeight: isAbove ? "48px" : "35px",
-
-        // borderRadius: isAbove ? "0 6px 6px 0" : "0 0 6px 6px",
-        // height: isAbove ? "35px" : "100%" ,
-        // marginLeft: isAbove ? "22%" : "0%",
-        // width: isAbove ?  "70%" : "100%",
-
+        minHeight: isAbove ? "48px" : "30px",
     },
 
 
     [`&.${tabClasses.selected}`]: {
-        backgroundColor: "#3d3737",
+        backgroundColor: "#212121",
         "&:first-of-type": {
             animation: isAbove ? `${gradientAnimationActive} .5s linear alternate both` : `${gradientAnimationActive} .5s linear alternate both, ${sizeTabActive} .5s linear alternate both, ${slideInFromBottom} .5s linear alternate both`,
             // boxShadow: isAbove ? "-10px -10px 5px green" : "-10px -10px 5px red",
@@ -377,7 +324,7 @@ export default function LoginModalCard({open, handleClose}) {
                     <Box>
 
                         <Box sx={{
-                            bgcolor: "#3d3737",
+                            bgcolor: "#212121",
                             borderBottomRightRadius: "15px",
                             borderBottomLeftRadius: "15px",
                             borderTopLeftRadius: "15px",

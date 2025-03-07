@@ -8,6 +8,7 @@ import Login from "./Auth/Login.jsx";
 import Register from "./Auth/Register.jsx";
 import {useState} from "react";
 import Dashboard from "./Pages/User/Dashboard.jsx";
+import AuthCallback from "./Auth/AuthCallback.jsx";
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
                     {/*<Route path="/websocket" element={<RandomNumbersWebSocket />} />*/}
                     <Route path="/axios" element={token ? <RandomNumGenerator /> : <Navigate to="/login" />} />
                     <Route path="/websocket" element={token ? <RandomNumbersWebSocket /> : <Navigate to="/login" />} />
+                    <Route path="/auth/callback" element={<AuthCallback />} />
                 </Routes>
             </Router>
         </AuthProvider>

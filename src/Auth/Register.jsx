@@ -5,28 +5,12 @@ import { useForm } from "react-hook-form";
 import {
     Box,
     Button,
-    Modal,
     TextField,
     Typography,
-    IconButton,
 } from "@mui/material";
 import { Close, Google, Facebook, GitHub } from "@mui/icons-material";
 
-const modalStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "#000000",
-    color: "#ffffff",
-    boxShadow: 24,
-    p: 4,
-    borderRadius: 2,
-};
-
-// eslint-disable-next-line react/prop-types
-export default function Register({ open, handleClose }) {
+export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     // const email = "", password = "";
@@ -51,7 +35,8 @@ export default function Register({ open, handleClose }) {
 
             if (response.status === 200) {
                 alert("Регистрация успешна! Теперь войдите в аккаунт.");
-                navigate("/login"); // Перенаправление на страницу входа
+                // navigate("/login"); // Перенаправление на страницу входа
+                navigate("/"); // Перенаправление на страницу входа
             }
             else{
                 alert("ABOBA NOT WORK");
@@ -62,8 +47,9 @@ export default function Register({ open, handleClose }) {
         }
     };
 
-    const handleOAuthLogin = (provider) => {
-        console.log(`Logging in with ${provider}`);
+    const handleOAuthLogin = async (provider) => {
+        const { data } = await axios.get("http://localhost:8000/gLogin");
+        window.location.href = data.auth_url;
     };
 
     return (

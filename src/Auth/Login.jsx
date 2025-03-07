@@ -2,50 +2,39 @@ import { useState } from "react";
 import axios from "axios";
 import { useAuth } from "./AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 // import Grid from '@mui/material/Unstable_Grid2';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {IconButton} from "@mui/material";
 import {Close, Facebook, GitHub, Google} from "@mui/icons-material";
+import {useForm} from "react-hook-form";
 
 // Создание темы
 
 export default function Login() {
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     // const [remember, setRemember] = useState("false");
-    let remember = false;
     const { login } = useAuth();
     const navigate = useNavigate();
+    const {
+        register,
+        formState: { errors },
+    } = useForm({ mode: "onChange" });
 
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        console.log(`login email - ${email}`);
+        console.log(`login password - ${password}`);
 
-    // function handleCheckbox() {
-    //     if (remember === "true"){
-    //         setRemember("false")
-    //     } else {
-    //         setRemember("true")
-    //     }
-    //
-    // }
-    const handleLogin = async () => {
         try {
-            console.log(`remember - ${remember}`)
             const response = await axios.post("http://localhost:8000/login", {
-                username,
+                email,
                 password,
-                remember,
             });
+            console.log(`access token - ${response.data.access_token}`)
             login(response.data.access_token);
             navigate("/"); // После логина отправляем на главную
         } catch (error) {
@@ -54,14 +43,10 @@ export default function Login() {
         }
     };
 
-    // return (
-    //     <div style={{ textAlign: "center", padding: "20px" }}>
-    //         <h1>Вход</h1>
-    //         <input placeholder="Логин" value={username} onChange={(e) => setUsername(e.target.value)} />
-    //         <input type="password" placeholder="Пароль" value={password} onChange={(e) => setPassword(e.target.value)} />
-    //         <button onClick={handleLogin}>Войти</button>
-    //     </div>
-    // );
+    const handleOAuthLogin = async (provider) => {
+        const { data } = await axios.get("http://localhost:8000/gLogin");
+        window.location.href = data.auth_url;
+    };
 
     return (
         <Box>
@@ -74,6 +59,7 @@ export default function Login() {
                 variant="contained"
                 startIcon={<Google />}
                 sx={{ mb: 1, bgcolor: "#4285F4", color: "white" }}
+                onClick={() => handleOAuthLogin("Google")}
             >
                 Войти через Google
             </Button>
@@ -97,6 +83,30 @@ export default function Login() {
                 или используйте email
             </Typography>
             <form onSubmit={handleLogin}>
+                {/*<TextField*/}
+                {/*    required*/}
+                {/*    fullWidth*/}
+                {/*    id="email"*/}
+                {/*    label="Email"*/}
+                {/*    margin="normal"*/}
+                {/*    // type="email"*/}
+                {/*    InputLabelProps={{ style: { color: "#ffffff" } }}*/}
+                {/*    InputProps={{ style: { color: "#ffffff" } }}*/}
+                {/*    sx={{ bgcolor: "#333", borderRadius: 1 }}*/}
+
+                {/*/>*/}
+                {/*<TextField*/}
+                {/*    required*/}
+                {/*    fullWidth*/}
+                {/*    id="password"*/}
+                {/*    label="Пароль"*/}
+                {/*    margin="normal"*/}
+                {/*    type="password"*/}
+                {/*    InputLabelProps={{ style: { color: "#ffffff" } }}*/}
+                {/*    InputProps={{ style: { color: "#ffffff" } }}*/}
+                {/*    sx={{ bgcolor: "#333", borderRadius: 1 }}*/}
+
+                {/*/>*/}
                 <TextField
                     required
                     fullWidth
@@ -108,6 +118,7 @@ export default function Login() {
                     InputProps={{ style: { color: "#ffffff" } }}
                     sx={{ bgcolor: "#333", borderRadius: 1 }}
 
+                    onChange={(e) => setEmail(e.target.value)}
                 />
                 <TextField
                     required
@@ -120,6 +131,7 @@ export default function Login() {
                     InputProps={{ style: { color: "#ffffff" } }}
                     sx={{ bgcolor: "#333", borderRadius: 1 }}
 
+                    onChange={(e) => setPassword(e.target.value)}
                 />
                 <Button
                     type="submit"
@@ -152,12 +164,12 @@ export default function Login() {
             //                 margin="normal"
             //                 required
             //                 fullWidth
-            //                 id="username"
-            //                 label="username"
-            //                 name="username"
-            //                 autoComplete="username"
-            //                 value={username}
-            //                 onChange={(e) => setUsername(e.target.value)}
+            //                 id="email"
+            //                 label="email"
+            //                 name="email"
+            //                 autoComplete="email"
+            //                 value={email}
+            //                 onChange={(e) => setemail(e.target.value)}
             //                 autoFocus
             //             />
             //             <TextField
