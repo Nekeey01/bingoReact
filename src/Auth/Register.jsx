@@ -9,6 +9,7 @@ import {
     Typography,
 } from "@mui/material";
 import { Close, Google, Facebook, GitHub } from "@mui/icons-material";
+import OAuthProviders from "./OAuthProviders.jsx";
 
 export default function Register() {
     const [email, setEmail] = useState("");
@@ -47,10 +48,7 @@ export default function Register() {
         }
     };
 
-    const handleOAuthLogin = async (provider) => {
-        const { data } = await axios.get("http://localhost:8000/gLogin");
-        window.location.href = data.auth_url;
-    };
+
 
     return (
             <Box>
@@ -58,34 +56,10 @@ export default function Register() {
                 <Typography variant="h5" sx={{ mb: 2, color: "red", textAlign: "center" }}>
                     Зарегистрироваться
                 </Typography>
-                <Button
-                    fullWidth
-                    variant="contained"
-                    startIcon={<Google />}
-                    sx={{ mb: 1, bgcolor: "#4285F4", color: "white" }}
-                    onClick={() => handleOAuthLogin("Google")}
-                >
-                    Войти через Google
-                </Button>
-                <Button
-                    fullWidth
-                    variant="contained"
-                    startIcon={<Facebook />}
-                    sx={{ mb: 1, bgcolor: "#1877F2", color: "white" }}
-                    onClick={() => handleOAuthLogin("Facebook")}
-                >
-                    Войти через Facebook
-                </Button>
-                <Button
-                    fullWidth
-                    variant="contained"
-                    startIcon={<GitHub />}
-                    sx={{ mb: 2, bgcolor: "#333", color: "white" }}
-                    onClick={() => handleOAuthLogin("GitHub")}
-                >
-                    Войти через GitHub
-                </Button>
-                <Typography variant="body2" sx={{ textAlign: "center", mb: 2 }}>
+
+                <OAuthProviders></OAuthProviders>
+
+                <Typography variant="h6" sx={{ textAlign: "center", mb: 2, mt:6 }}>
                     или используйте email
                 </Typography>
                 <form onSubmit={handleRegister}>

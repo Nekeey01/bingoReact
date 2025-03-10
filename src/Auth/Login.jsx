@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {Close, Facebook, GitHub, Google} from "@mui/icons-material";
 import {useForm} from "react-hook-form";
+import OAuthProviders from "./OAuthProviders.jsx";
 
 // Создание темы
 
@@ -43,70 +44,21 @@ export default function Login() {
         }
     };
 
-    const handleOAuthLogin = async (provider) => {
-        const { data } = await axios.get("http://localhost:8000/gLogin");
-        window.location.href = data.auth_url;
-    };
-
     return (
         <Box>
 
             <Typography variant="h5" sx={{ mb: 2,  color: "green",  textAlign: "center" }}>
-                Войти
+                Войти через сервисы
             </Typography>
-            <Button
-                fullWidth
-                variant="contained"
-                startIcon={<Google />}
-                sx={{ mb: 1, bgcolor: "#4285F4", color: "white" }}
-                onClick={() => handleOAuthLogin("Google")}
-            >
-                Войти через Google
-            </Button>
-            <Button
-                fullWidth
-                variant="contained"
-                startIcon={<Facebook />}
-                sx={{ mb: 1, bgcolor: "#1877F2", color: "white" }}
-            >
-                Войти через Facebook
-            </Button>
-            <Button
-                fullWidth
-                variant="contained"
-                startIcon={<GitHub />}
-                sx={{ mb: 2, bgcolor: "#333", color: "white" }}
-            >
-                Войти через GitHub
-            </Button>
-            <Typography variant="body2" sx={{ textAlign: "center", mb: 2 }}>
+            {/*<OAuthProviders></OAuthProviders>*/}
+            <OAuthProviders />
+
+
+            <Typography variant="h6" sx={{ textAlign: "center", mb: 2, mt: 2 }}>
                 или используйте email
             </Typography>
             <form onSubmit={handleLogin}>
-                {/*<TextField*/}
-                {/*    required*/}
-                {/*    fullWidth*/}
-                {/*    id="email"*/}
-                {/*    label="Email"*/}
-                {/*    margin="normal"*/}
-                {/*    // type="email"*/}
-                {/*    InputLabelProps={{ style: { color: "#ffffff" } }}*/}
-                {/*    InputProps={{ style: { color: "#ffffff" } }}*/}
-                {/*    sx={{ bgcolor: "#333", borderRadius: 1 }}*/}
 
-                {/*/>*/}
-                {/*<TextField*/}
-                {/*    required*/}
-                {/*    fullWidth*/}
-                {/*    id="password"*/}
-                {/*    label="Пароль"*/}
-                {/*    margin="normal"*/}
-                {/*    type="password"*/}
-                {/*    InputLabelProps={{ style: { color: "#ffffff" } }}*/}
-                {/*    InputProps={{ style: { color: "#ffffff" } }}*/}
-                {/*    sx={{ bgcolor: "#333", borderRadius: 1 }}*/}
-
-                {/*/>*/}
                 <TextField
                     required
                     fullWidth
