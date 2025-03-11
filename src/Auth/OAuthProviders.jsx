@@ -7,7 +7,6 @@ import Stack from "@mui/material/Stack";
 
 const SvtOAuth = styled(SvgIcon)(() => ({
     fontSize: "2.2rem",
-
 }));
 
 

@@ -231,6 +231,8 @@ const TabItem = styled(Tab, {
 
 }));
 
+
+
 // eslint-disable-next-line react/prop-types
 export default function LoginModalCard({open, handleClose}) {
     const [value, setValue] = useState('Login');

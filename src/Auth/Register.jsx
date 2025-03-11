@@ -10,10 +10,12 @@ import {
 } from "@mui/material";
 import { Close, Google, Facebook, GitHub } from "@mui/icons-material";
 import OAuthProviders from "./OAuthProviders.jsx";
+import {useAuth} from "./AuthContext.jsx";
 
 export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const { login } = useAuth();
     // const email = "", password = "";
     // const [error, setError] = useState("");
     const navigate = useNavigate();
@@ -36,6 +38,12 @@ export default function Register() {
 
             if (response.status === 200) {
                 alert("Регистрация успешна! Теперь войдите в аккаунт.");
+                const response = await axios.post("http://localhost:8000/login", {
+                    email,
+                    password,
+                });
+                console.log(`access token - ${response.data.access_token}`)
+                login(response.data.access_token);
                 // navigate("/login"); // Перенаправление на страницу входа
                 navigate("/"); // Перенаправление на страницу входа
             }

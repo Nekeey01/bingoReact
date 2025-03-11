@@ -3,18 +3,23 @@ import Register from "../Auth/Register.jsx";
 import {Button} from "@mui/material";
 import {useState} from "react";
 import LoginModalCard from "../Auth/LoginModalCard.jsx";
+import {useAuth} from "../Auth/AuthContext.jsx";
+import Header from "./Common/Header.jsx";
 
 export default function Home() {
     const navigate = useNavigate();
-    const token = localStorage.getItem("token");
+    const { token,  logout } = useAuth()
     console.log("token2 - ", token)
     const [open, setOpen] = useState(false);
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
-        navigate("/");
+        logout();
+        setOpen(false);
     }
     return (
+        <>
+        <Header></Header>
+
         <div style={{textAlign: "center", padding: "20px"}}>
             <h1>Выберите метод генерации чисел</h1>
             {!token ? (
@@ -59,5 +64,6 @@ export default function Home() {
                 </>
             )}
         </div>
+        </>
     );
 }
