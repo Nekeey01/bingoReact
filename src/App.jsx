@@ -6,7 +6,7 @@ import Routing from "./components/Routing.jsx";
 
 function App() {
     return (
-        <AuthProvider>
+        <AuthProvider >
             <ProfileProvider>
                 <Routing />
             </ProfileProvider>

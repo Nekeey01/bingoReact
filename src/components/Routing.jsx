@@ -10,6 +10,9 @@ import RandomNumGenerator from "../Pages/RandomNumGen/RandomNumGenAxios.jsx";
 import RandomNumbersWebSocket from "../Pages/RandomNumGen/RandomNumGenWebSocket.jsx";
 import NotFound from "./NotFound.jsx";
 import Header from "./Common/Header2.jsx";
+import CreateBingoCard from "../Pages/Edit/CreateBingoCard.jsx";
+import {Box} from "@mui/material";
+import Container from "@mui/material/Container";
 
 
 // Компонент для защиты маршрутов
@@ -24,9 +27,12 @@ function Routing() {
 
     return (
         <Router>
-            {/*<ResponsiveAppBar/>*/}
-            <Header />
-            <div style={{paddingTop: "64px"}}>
+            <Header/>
+            <Container maxWidth={false} sx={{
+                paddingX: '0 !important',
+                bgcolor: "var(--backgroundDark)",
+                height: "-webkit-fill-available",
+            }}>
                 <Routes>
                     {/* Публичные маршруты */}
                     <Route path="/" element={<Home2/>}/>
@@ -68,13 +74,13 @@ function Routing() {
                             </ProtectedRoute>
                         }
                     />
-
+                    <Route path="/create" element={<CreateBingoCard/>}/>
                     {/* Страница 404 */}
                     <Route path="*" element={<NotFound/>}/>
                 </Routes>
-            </div>
+            </Container>
         </Router>
-);
+    );
 }
 
 export default Routing

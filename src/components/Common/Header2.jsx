@@ -78,26 +78,34 @@ function Header() {
 
     return (
         <AppBar
-            position="fixed"
+            position="sticky"
             sx={{
-                bgcolor: "#1a1a1a",
+                bgcolor: "var(--backgroundLight)",
                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
             }}
         >
-            <Toolbar sx={{ justifyContent: "space-between" }}>
+            <Toolbar sx={{
+                justifyContent: "space-between",
+                paddingX: 'var(--main-padding) !important'
+            }}>
                 {/* Логотип/Название */}
                 <Typography
                     variant="h6"
                     sx={{
                         fontWeight: 700,
                         letterSpacing: 1,
-                        color: "#fff",
+                        color: "var(--primaryColor)",
                         cursor: "pointer",
-                        "&:hover": { color: "#e0e0e0" },
+                        display: "flex",
+                        alignItems: "center",
+                        transition: "var(--contentTransition)",
+                        "&:hover": { color: "var(--contentColorMain)" },
                     }}
                     onClick={() => navigate("/")}
                 >
-                    Bingo React
+                    <Box>We Love Bingo</Box>
+                    <Box sx={{color: "white", paddingX: "10px"}}>|</Box>
+                    <Box sx={{color: "white", fontSize: "12px"}}>by YA</Box>
                 </Typography>
 
                 {/* Элементы для авторизованного пользователя */}
@@ -176,13 +184,17 @@ function Header() {
                         startIcon={<LoginIcon />}
                         onClick={() => setModalOpen(true)}
                         sx={{
-                            bgcolor: "#6200ea",
-                            color: "#fff",
+                            bgcolor: "var(--contentColorMain)",
+                            color: "black",
+                            transition: "var(--contentTransition)",
                             textTransform: "none",
                             px: 2,
                             py: 1,
                             borderRadius: 2,
-                            "&:hover": { bgcolor: "#4500a0" },
+                            "&:hover": {
+                                bgcolor: "var(--contentColorDark)",
+                                color: "white",
+                            },
                         }}
                     >
                         Войти
