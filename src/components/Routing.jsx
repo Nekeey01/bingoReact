@@ -29,7 +29,8 @@ function Routing() {
         <Router>
             <Header/>
             <Container maxWidth={false} sx={{
-                paddingX: "var(--main-padding) !important"
+                paddingX: "var(--main-padding) !important",
+                height: "fill-available",
             }}>
                 <Routes>
                     {/* Публичные маршруты */}
