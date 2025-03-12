@@ -1,6 +1,6 @@
 import {Box, Typography} from "@mui/material";
 
-export default function BingoView() {
+export default function View() {
     return (
         <Box sx={{
             padding: 'var(--main-padding)',

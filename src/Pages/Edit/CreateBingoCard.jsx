@@ -1,11 +1,10 @@
 import Settings from '../../components/Edit/Settings'
-import BingoView from '../../components/Edit/BingoView'
+import View from '../../components/Edit/View.jsx'
 import Grid from "@mui/material/Grid2";
 
 export default function CreateBingoCard() {
     return (
         <Grid container sx={{
-            borderTop: 'var(--page-blocks-divider)',
             height: "-webkit-fill-available",
         }}>
             <Grid size={3} sx={{
@@ -14,7 +13,7 @@ export default function CreateBingoCard() {
                 <Settings />
             </Grid>
             <Grid size={9} >
-                <BingoView />
+                <View />
             </Grid>
         </Grid>
     );

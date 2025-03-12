@@ -29,9 +29,7 @@ function Routing() {
         <Router>
             <Header/>
             <Container maxWidth={false} sx={{
-                paddingX: '0 !important',
-                bgcolor: "var(--backgroundDark)",
-                height: "-webkit-fill-available",
+                paddingX: "var(--main-padding) !important"
             }}>
                 <Routes>
                     {/* Публичные маршруты */}
