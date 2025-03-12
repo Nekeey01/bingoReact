@@ -3,7 +3,7 @@ import {Box, Typography} from "@mui/material";
 export default function View() {
     return (
         <Box sx={{
-            padding: 'var(--main-padding)',
+            p: 'var(--main-padding)',
         }}>
             <Typography sx={{
                 color: "var(--contentColorLight)",
@@ -17,7 +17,7 @@ export default function View() {
                 color: "white",
                 fontSize: "var(--pageHeaderTextSize)",
                 textTransform: "capitalize",
-                paddingTop: "12px",
+                pt: "12px",
                 fontWeight: "700",
             }}>
                 Создай свое бинго
