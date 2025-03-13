@@ -13,6 +13,8 @@ import Header from "./Common/Header2.jsx";
 import CreateBingoCard from "../Pages/Edit/CreateBingoCard.jsx";
 import {Box} from "@mui/material";
 import Container from "@mui/material/Container";
+import Comments from "../Pages/Comments/Comments.jsx";
+import CommentsWithoutServer from "../Pages/Comments/CommentsWithoutServer.jsx";
 
 
 // Компонент для защиты маршрутов
@@ -69,7 +71,7 @@ function Routing() {
                         path="/comments"
                         element={
                             <ProtectedRoute>
-                                <NotFound/>
+                                <CommentsWithoutServer />
                             </ProtectedRoute>
                         }
                     />

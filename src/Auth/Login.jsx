@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import {Close, Facebook, GitHub, Google} from "@mui/icons-material";
 import {useForm} from "react-hook-form";
 import OAuthProviders from "./OAuthProviders.jsx";
+import {useProfile} from "../components/ProfileContext.jsx";
 
 // Создание темы
 
@@ -19,6 +20,7 @@ export default function Login() {
     const [password, setPassword] = useState("");
     // const [remember, setRemember] = useState("false");
     const { login } = useAuth();
+    const { getAvatar } = useProfile();
     const navigate = useNavigate();
     const {
         register,
@@ -37,6 +39,8 @@ export default function Login() {
             });
             console.log(`access token - ${response.data.access_token}`)
             login(response.data.access_token);
+            getAvatar();
+
             navigate("/"); // После логина отправляем на главную
         } catch (error) {
             console.error("Ошибка входа:", error);

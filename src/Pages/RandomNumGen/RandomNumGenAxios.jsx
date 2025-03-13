@@ -19,7 +19,7 @@ export default function RandomNumGenerator() {
     }
 
     return (
-        <div>
+        <div  style={{ textAlign: "center",  padding: "20px" }}>
             <h1>Генератор случайных чисел</h1>
             <input
                 type="number"
